@@ -12,23 +12,37 @@ F = fft(data,[],1);
 
 % outlier removal
 numDerivation = 1;
-filtered = FilterOutlier(M_mV,numDerivation);
+no_outliers = FilterOutlier(M_mV,numDerivation);
 
 % bandbassfilter
 fs = header.samplingRate;
-[m,n]= size(filtered);
-for i=1:n
-    figure
-    bandpass(filtered(:,n), [100 300], fs)
-    title(header.column(i+2))
-end
+lowCutoff = 100;
+highCutoff = 300;
+filtered = BandpassFilter(header, no_outliers,lowCutoff,highCutoff,fs);
 
-% % Savitzky-Golay filtering
-% order = 20;
-% framelen = 219;
-% sgf = sgolayfilt(filtered(:,1),order,framelen);
-% plot(filtered(:,1),':')
+% Savitzky-Golay filtering
+order = 20;
+framelen = 219;
+sgf = Savitzky_GolayFilter(no_outliers,order,framelen);
+% plot(no_outliers(:,1),':')
 % hold on
-% plot(sgf,'.-')
+% plot(sgf(:,1),'.-')
 % legend('signal','sgolay')
+
+% Moving RMS
+windowLength = 100;
+overlap = 10;
+
+movrmsExp = dsp.MovingRMS('WindowLength', windowLength,'OverlapLength', overlap);
+
+Fs = header.samplingRate;
+scope  = timescope('SampleRate',[Fs,Fs,Fs/(20-15),Fs],...
+    'TimeSpanOverrunAction','Scroll',...
+    'TimeSpanSource','Property',...
+    'TimeSpan',100,...
+    'ShowGrid',true,...
+    'YLimits',[-1.0 5.5]);
+y = data(:,1);
+x = 0:length(y);
+plot(x, movrmsExp(y));
 
