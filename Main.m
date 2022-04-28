@@ -19,13 +19,13 @@ no_outliers = FilterOutlier(M_mV,numDerivation);
 
 %% processing Track A
 %rectify data
-filtered = abs(filtered);
+no_outliers = abs(no_outliers);
 % bandbassfilter
 fs = header.samplingRate;
-[m,n]= size(filtered);
+[m,n]= size(no_outliers);
 for i=1:n
     figure
-    bandpass(filtered(:,n), [100 300], fs)
+    bandpass(no_outliers(:,n), [100 300], fs)
     title(header.column(i+2))
 end
 
@@ -44,7 +44,7 @@ sgf = Savitzky_GolayFilter(no_outliers,order,framelen);
 
 
 plot(filtered(:,1));
-data1 = MVC(filtered,"S1");
+data1 = MVC(no_outliers,"S1");
 figure
 plot(data1(:,1));
 
