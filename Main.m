@@ -80,9 +80,17 @@ sgf = Savitzky_GolayFilter(no_outliers,order,framelen);
 
 %% processing Track B
 % Moving RMS
-windowLength = 100;
-overlap = 10;
+windowLength = 20;
+overlap = windowLength -1; % default windowLength -1
 
+movrmsExp = dsp.MovingRMS('WindowLength', windowLength,'OverlapLength',overlap);
+
+
+y = abs(data(:,1));
+plot(y)
+hold on
+rms = movrmsExp(y)';
+plot(rms(windowLength:end)); % overlap verschijnselen rekening houden door vanaf windowsLenght te vertrekken anders neemt hij in het begin 0'en mee.
 % movrmsExp = dsp.MovingRMS('WindowLength', windowLength,'OverlapLength', overlap);
 % 
 % Fs = header.samplingRate;
@@ -109,4 +117,6 @@ fileId = fopen('settings.txt','w')
 fprintf(fileId,"%s", filtered);
 writematrix(no_outliers,'Processed Data before normalization.csv','Delimiter',';')
 writematrix(NormalisedData,'Processed Data after normalization.csv','Delimiter',';')
+
+
 
