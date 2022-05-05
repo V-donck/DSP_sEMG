@@ -58,10 +58,13 @@ sgf = Savitzky_GolayFilter(no_outliers,order,framelen);
 %% processing Track B
 % Moving RMS
 windowLength = 20;
-overlap = 15;
+overlap = windowLength -1; % default windowLength -1
 
-movrmsExp = dsp.MovingRMS('WindowLength', windowLength,'OverlapLength', overlap);
+movrmsExp = dsp.MovingRMS('WindowLength', windowLength,'OverlapLength',overlap);
 
-y = data(:,1);
-x = 0:length(y);
-plot(movrmsExp(y)');
+
+y = abs(data(:,1));
+plot(y)
+hold on
+rms = movrmsExp(y)';
+plot(rms(windowLength:end)); % overlap verschijnselen rekening houden door vanaf windowsLenght te vertrekken anders neemt hij in het begin 0'en mee.
