@@ -3,7 +3,7 @@ function [filtered] = BandpassFilter(header, no_outliers,lowCutoff, highCutoff, 
 %   Detailed explanation goes here
     [~,n]= size(no_outliers);
     for i=1:n
-        filtered(:,i) = bandpass(no_outliers(:,n), [lowCutoff highCutoff], fs);
+        filtered(:,i) = bandpass(no_outliers(:,i), [lowCutoff highCutoff], fs);
     end
 end
 
