@@ -1,70 +1,105 @@
 clear; clc;
+ploton = false;
 %% Load Raw Data
 %read file
 [header, data] = ReadFile('PP01/S1_score_slow.txt');
 Date = header.date;
 time = header.time;
-samplingRate = header."sampling rate"
+samplingRate = header.samplingRate;
 resolution = header.resolution;
 
 %transform raw data to mV
 M_mV =  transformTo_mV(data,resolution);
 
-%% 
+%% FFT Analysis
 %fft
 F = fft(data,[],1);
 
-plot(abs(M_mV(:,1)));
-figure
+%hier plotten voor testen outlier removal
+if(ploton)
+plot(M_mV(:,1));
+title("standard");
+end
+%% Outlier removal
 % outlier klopt nog niet helemaal
-% outlier removal
 numDerivation = 1;
 no_outliers = FilterOutlier(M_mV,numDerivation);
-
+%hier plotten
+if(ploton)
+figure
+plot(no_outliers(:,1));
+title("no outliers");
+end
 %% processing Track A
 %rectify data
 no_outliers = abs(no_outliers);
-% bandbassfilter
-fs = header.samplingRate;
-[m,n]= size(no_outliers);
-for i=1:n
-    figure
-    bandpass(no_outliers(:,n), [100 300], fs)
-    title(header.column(i+2))
+% hier plots abs
+if(ploton)
+figure
+plot(no_outliers(:,1));
+title("abs");
+figure
 end
 
+% bandbassfilter
+[m,n]= size(no_outliers);
+if ploton
+for i=1:n
+    %hier plotten bandpassfilters
+    
+    bandpass(no_outliers(:,i), [100 300], samplingRate);
+    
+    figure
+   % plot(filtered(:,i));
+    %title(header.column(i+2))
+    
+end
+end
+
+%cutoffrequency
 lowCutoff = 100;
 highCutoff = 300;
-filtered = BandpassFilter(header, no_outliers,lowCutoff,highCutoff,fs);
-
+filtered = BandpassFilter(header, no_outliers,lowCutoff,highCutoff,samplingRate);
+%hier plot cuttoffrequency
+if (ploton)
+figure
+    plot(filtered(:,1));
+    title("cuttof");
+end
 % Savitzky-Golay filtering
 order = 20;
 framelen = 219;
 sgf = Savitzky_GolayFilter(no_outliers,order,framelen);
-% plot(no_outliers(:,1),':')
-% hold on
-% plot(sgf(:,1),'.-')
-% legend('signal','sgolay')
 
-
-plot(filtered(:,1));
-data1 = MVC(no_outliers,"S1");
-figure
-plot(data1(:,1));
-
+%% processing Track B
 % Moving RMS
 windowLength = 100;
 overlap = 10;
 
-movrmsExp = dsp.MovingRMS('WindowLength', windowLength,'OverlapLength', overlap);
+% movrmsExp = dsp.MovingRMS('WindowLength', windowLength,'OverlapLength', overlap);
+% 
+% Fs = header.samplingRate;
+% scope  = timescope('SampleRate',[Fs,Fs,Fs/(20-15),Fs],...
+%     'TimeSpanOverrunAction','Scroll',...
+%     'TimeSpanSource','Property',...
+%     'TimeSpan',100,...
+%     'ShowGrid',true,...
+%     'YLimits',[-1.0 5.5]);
+% y = data(:,1);
+% x = 0:length(y);
+% plot(x, movrmsExp(y));
+%% MVC Normalisation
+NormalisedData = MVC(no_outliers,"S1");
+%plot normalised Data
+if ploton
+figure
+plot(NormalisedData(:,1));
+title("normalised");
+end
 
-Fs = header.samplingRate;
-scope  = timescope('SampleRate',[Fs,Fs,Fs/(20-15),Fs],...
-    'TimeSpanOverrunAction','Scroll',...
-    'TimeSpanSource','Property',...
-    'TimeSpan',100,...
-    'ShowGrid',true,...
-    'YLimits',[-1.0 5.5]);
-y = data(:,1);
-x = 0:length(y);
-plot(x, movrmsExp(y));
+%% Data export
+fileId = fopen('settings.txt','w')
+fprintf(fileId,"%s", filtered);
+writematrix(no_outliers,'Processed Data before normalization.csv','Delimiter',';')
+writematrix(NormalisedData,'Processed Data after normalization.csv','Delimiter',';')
+

@@ -1,4 +1,12 @@
 clear; clc;
+ploton = true;
+%% to do:
+%filter mean fout -> groter window pakken
+%normalisation checken
+% settings file exporteren
+%app
+
+
 %% Load Raw Data
 %read file
 [header, data] = ReadFile('PP01/S1_score_slow.txt');
@@ -15,41 +23,56 @@ M_mV =  transformTo_mV(data,resolution);
 F = fft(data,[],1);
 
 %hier plotten voor testen outlier removal
+if(ploton)
 plot(M_mV(:,1));
 title("standard");
+end
 %% Outlier removal
 % outlier klopt nog niet helemaal
 numDerivation = 1;
 no_outliers = FilterOutlier(M_mV,numDerivation);
 %hier plotten
+if(ploton)
 figure
 plot(no_outliers(:,1));
 title("no outliers");
-
+end
 %% processing Track A
 %rectify data
 no_outliers = abs(no_outliers);
 % hier plots abs
+if(ploton)
 figure
 plot(no_outliers(:,1));
 title("abs");
+figure
+end
 
 % bandbassfilter
 [m,n]= size(no_outliers);
+if ploton
 for i=1:n
     %hier plotten bandpassfilters
+    
+    bandpass(no_outliers(:,i), [100 300], samplingRate);
+    
     figure
-    filtered(:,i) = bandpass(no_outliers(:,i), [100 300], samplingRate);
-    plot(filtered(:,i));
-    title(header.column(i+2))
+   % plot(filtered(:,i));
+    %title(header.column(i+2))
     
 end
+end
 
-%cutoffrequenty
+%cutoffrequency
 lowCutoff = 100;
 highCutoff = 300;
 filtered = BandpassFilter(header, no_outliers,lowCutoff,highCutoff,samplingRate);
-
+%hier plot cuttoffrequency
+if (ploton)
+figure
+    plot(filtered(:,1));
+    title("cuttof");
+end
 % Savitzky-Golay filtering
 order = 20;
 framelen = 219;
@@ -74,3 +97,16 @@ overlap = 10;
 % plot(x, movrmsExp(y));
 %% MVC Normalisation
 NormalisedData = MVC(no_outliers,"S1");
+%plot normalised Data
+if ploton
+figure
+plot(NormalisedData(:,1));
+title("normalised");
+end
+
+%% Data export
+fileId = fopen('settings.txt','w')
+fprintf(fileId,"%s", filtered);
+writematrix(no_outliers,'Processed Data before normalization.csv','Delimiter',';')
+writematrix(NormalisedData,'Processed Data after normalization.csv','Delimiter',';')
+

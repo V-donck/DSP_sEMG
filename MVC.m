@@ -30,10 +30,10 @@ MVC_ECR_rechts=max(MVC_ECR_rechts);
 
 %Normalise data
 Normalised_data(:,1)=Data(:,1)/MVC_trapezius_links;
-Normalised_data(:,2)=Data(:,1)/MVC_trapezius_rechts;
-Normalised_data(:,3)=Data(:,1)/MVC_delt_links;
-Normalised_data(:,4)=Data(:,1)/MVC_delt_rechts;
-Normalised_data(:,5)=Data(:,1)/MVC_ECR_rechts;
+Normalised_data(:,2)=Data(:,2)/MVC_trapezius_rechts;
+Normalised_data(:,3)=Data(:,3)/MVC_delt_links;
+Normalised_data(:,4)=Data(:,4)/MVC_delt_rechts;
+Normalised_data(:,5)=Data(:,5)/MVC_ECR_rechts;
 
 end
 
