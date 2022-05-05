@@ -23,11 +23,11 @@ no_outliers = abs(no_outliers);
 % bandbassfilter
 fs = header.samplingRate;
 [m,n]= size(no_outliers);
-for i=1:n
-    figure
-    bandpass(no_outliers(:,n), [100 300], fs)
-    title(header.column(i+2))
-end
+% for i=1:n
+%     figure
+%     bandpass(no_outliers(:,n), [100 300], fs)
+%     title(header.column(i+2))
+% end
 
 lowCutoff = 100;
 highCutoff = 300;
@@ -48,19 +48,13 @@ data1 = MVC(no_outliers,"S1");
 figure
 plot(data1(:,1));
 
+%% Moving
 % Moving RMS
-windowLength = 100;
-overlap = 10;
+windowLength = 20;
+overlap = 15;
 
 movrmsExp = dsp.MovingRMS('WindowLength', windowLength,'OverlapLength', overlap);
 
-Fs = header.samplingRate;
-scope  = timescope('SampleRate',[Fs,Fs,Fs/(20-15),Fs],...
-    'TimeSpanOverrunAction','Scroll',...
-    'TimeSpanSource','Property',...
-    'TimeSpan',100,...
-    'ShowGrid',true,...
-    'YLimits',[-1.0 5.5]);
 y = data(:,1);
 x = 0:length(y);
-plot(x, movrmsExp(y));
+plot(movrmsExp(y)');
