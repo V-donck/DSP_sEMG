@@ -2,8 +2,8 @@ function [M_mV] = FilterOutlier(M_mV,numDerivation)
     [m,n]= size(M_mV);
     
     for i=1:n
-        means(i) = mean(M_mV(:,i));
-        stds(i) = std(M_mV(:,i));
+        means(i) = mean(M_mV(:,i))
+        stds(i) = std(M_mV(:,i))
     end
     for j=1:n % kolommen
         for i= 1:m % rijen
