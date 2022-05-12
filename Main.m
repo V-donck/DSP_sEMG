@@ -2,6 +2,7 @@ clear; clc;
 ploton = false;
 %% to do:
 % normalisation checken
+% FFT checken
 % app
 
 %% Load Raw Data
