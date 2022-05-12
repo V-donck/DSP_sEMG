@@ -1,8 +1,7 @@
 clear; clc;
-ploton = true;
+ploton = false;
 %% to do:
 % normalisation checken
-% settings file exporteren
 % app
 
 %% Load Raw Data
@@ -99,7 +98,9 @@ if ploton
 end
 
 %% Data export
-fileId = fopen('settings.txt','w')
+fileId = fopen('settings.txt','w');
+fprintf(fileId,"Date: %s  & Time: %s \n",header.date, header.time);
+fprintf(fileId,"Sampling frequency: %d  & Resolution: %d \n", header.samplingRate, header.resolution(1));
 fprintf(fileId,"Settings used: \n StandardDeviation to remove outliers: %d\n",numDerivation);
 fprintf(fileId,"Process track A:\n");
 fprintf(fileId,"    Bandpassfilter: cuttoffrequencies: %d %d\n", lowCutoff,highCutoff);
