@@ -1,11 +1,10 @@
 clear; clc;
-ploton = true;
+ploton = false;
 %% to do:
 %filter mean fout -> groter window pakken
 %normalisation checken
 % settings file exporteren
 %app
-
 
 %% Load Raw Data
 %read file
@@ -24,8 +23,8 @@ F = fft(data,[],1);
 
 %hier plotten voor testen outlier removal
 if(ploton)
-plot(M_mV(:,1));
-title("standard");
+    plot(M_mV(:,1));
+    title("standard");
 end
 %% Outlier removal
 % outlier klopt nog niet helemaal
@@ -91,32 +90,20 @@ plot(y)
 hold on
 rms = movrmsExp(y)';
 plot(rms(windowLength:end)); % overlap verschijnselen rekening houden door vanaf windowsLenght te vertrekken anders neemt hij in het begin 0'en mee.
-% movrmsExp = dsp.MovingRMS('WindowLength', windowLength,'OverlapLength', overlap);
-% 
-% Fs = header.samplingRate;
-% scope  = timescope('SampleRate',[Fs,Fs,Fs/(20-15),Fs],...
-%     'TimeSpanOverrunAction','Scroll',...
-%     'TimeSpanSource','Property',...
-%     'TimeSpan',100,...
-%     'ShowGrid',true,...
-%     'YLimits',[-1.0 5.5]);
-% y = data(:,1);
-% x = 0:length(y);
-% plot(x, movrmsExp(y));
 %% MVC Normalisation
 NormalisedData = MVC(no_outliers,"S1");
 %plot normalised Data
 if ploton
-figure
-plot(NormalisedData(:,1));
-title("normalised");
+    figure
+    plot(NormalisedData(:,1));
+    title("normalised");
 end
 
 %% Data export
 fileId = fopen('settings.txt','w')
 fprintf(fileId,"Settings used: \n StandardDeviation to remove outliers: %d",numDerivation);
 fprintf(fileId,"Process track A:");
-fprintf(fileId,"    Bandpassfilter: cuttoffrequencies: %d %d", lowfrequency,highfrequency);
+fprintf(fileId,"    Bandpassfilter: cuttoffrequencies: %d %d", lowCutoff,highCutoff);
 fprintf(fileId,"    Savitzky-Golay filtering: ordel and framelen: %d %d", order,framelen);
 
 
