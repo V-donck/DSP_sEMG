@@ -114,7 +114,12 @@ end
 
 %% Data export
 fileId = fopen('settings.txt','w')
-fprintf(fileId,"%s", filtered);
+fprintf(fileId,"Settings used: \n StandardDeviation to remove outliers: %d",numDerivation);
+fprintf(fileId,"Process track A:");
+fprintf(fileId,"    Bandpassfilter: cuttoffrequencies: %d %d", lowfrequency,highfrequency);
+fprintf(fileId,"    Savitzky-Golay filtering: ordel and framelen: %d %d", order,framelen);
+
+
 writematrix(no_outliers,'Processed Data before normalization.csv','Delimiter',';')
 writematrix(NormalisedData,'Processed Data after normalization.csv','Delimiter',';')
 
