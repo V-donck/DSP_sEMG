@@ -100,14 +100,17 @@ end
 
 %% Data export
 fileId = fopen('settings.txt','w')
-fprintf(fileId,"Settings used: \n StandardDeviation to remove outliers: %d",numDerivation);
-fprintf(fileId,"Process track A:");
-fprintf(fileId,"    Bandpassfilter: cuttoffrequencies: %d %d", lowCutoff,highCutoff);
-fprintf(fileId,"    Savitzky-Golay filtering: ordel and framelen: %d %d", order,framelen);
-
+fprintf(fileId,"Settings used: \n StandardDeviation to remove outliers: %d\n",numDerivation);
+fprintf(fileId,"Process track A:\n");
+fprintf(fileId,"    Bandpassfilter: cuttoffrequencies: %d %d\n", lowCutoff,highCutoff);
+fprintf(fileId,"    Savitzky-Golay filtering: ordel and framelen: %d %d\n", order,framelen);
+fprintf(fileId,"Process track B:\n");
+fprintf(fileId,"    Windowlength, %d",windowLength);
+fprintf(fileId,"    Overlap, %d",overlap);
 
 writematrix(no_outliers,'Processed Data before normalization.csv','Delimiter',';')
 writematrix(NormalisedData,'Processed Data after normalization.csv','Delimiter',';')
+
 
 
 
