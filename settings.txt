@@ -1,2 +1,2 @@
 Settings used: 
- StandardDeviation to remove outliers: 1Process track A:    Bandpassfilter: cuttoffrequencies: 100 300    Savitzky-Golay filtering: ordel and framelen: 20 219
+ StandardDeviation to remove outliers: 2Process track A:    Bandpassfilter: cuttoffrequencies: 100 300    Savitzky-Golay filtering: ordel and framelen: 20 219

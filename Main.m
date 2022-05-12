@@ -1,10 +1,9 @@
 clear; clc;
-ploton = false;
+ploton = true;
 %% to do:
-%filter mean fout -> groter window pakken
-%normalisation checken
+% normalisation checken
 % settings file exporteren
-%app
+% app
 
 %% Load Raw Data
 %read file
@@ -27,39 +26,37 @@ if(ploton)
     title("standard");
 end
 %% Outlier removal
-% outlier klopt nog niet helemaal
-numDerivation = 1;
-no_outliers = FilterOutlier(M_mV,numDerivation);
+numDerivation = 2;
+windowSize = 20;
+no_outliers = FilterOutlierWindow(M_mV,numDerivation,windowSize);
 %hier plotten
 if(ploton)
-figure
-plot(no_outliers(:,1));
-title("no outliers");
+    figure
+    plot(no_outliers(:,1));
+    title("no outliers");
 end
 %% processing Track A
 %rectify data
 no_outliers = abs(no_outliers);
 % hier plots abs
 if(ploton)
-figure
-plot(no_outliers(:,1));
-title("abs");
-figure
+    figure
+    plot(no_outliers(:,1));
+    title("abs");
 end
 
 % bandbassfilter
 [m,n]= size(no_outliers);
 if ploton
-for i=1:n
-    %hier plotten bandpassfilters
-    
-    bandpass(no_outliers(:,i), [100 300], samplingRate);
-    
-    figure
-   % plot(filtered(:,i));
-    %title(header.column(i+2))
-    
-end
+    for i=1:n
+        %hier plotten bandpassfilters
+        figure
+        bandpass(no_outliers(:,i), [100 300], samplingRate);
+       
+       % plot(filtered(:,i));
+        %title(header.column(i+2))
+        
+    end
 end
 
 %cutoffrequency
@@ -68,7 +65,7 @@ highCutoff = 300;
 filtered = BandpassFilter(header, no_outliers,lowCutoff,highCutoff,samplingRate);
 %hier plot cuttoffrequency
 if (ploton)
-figure
+    figure
     plot(filtered(:,1));
     title("cuttof");
 end
@@ -86,10 +83,12 @@ movrmsExp = dsp.MovingRMS('WindowLength', windowLength,'OverlapLength',overlap);
 
 
 y = abs(data(:,1));
-plot(y)
-hold on
 rms = movrmsExp(y)';
-plot(rms(windowLength:end)); % overlap verschijnselen rekening houden door vanaf windowsLenght te vertrekken anders neemt hij in het begin 0'en mee.
+if ploton
+    plot(y)
+    hold on
+    plot(rms(windowLength:end)); % overlap verschijnselen rekening houden door vanaf windowsLenght te vertrekken anders neemt hij in het begin 0'en mee.
+end
 %% MVC Normalisation
 NormalisedData = MVC(no_outliers,"S1");
 %plot normalised Data
