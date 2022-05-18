@@ -1,1 +1,0 @@
- appdesigner.internal.application.openTutorial('BasicCoding')
