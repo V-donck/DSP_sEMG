@@ -1,0 +1,9 @@
+Date: 2017-4-28  & Time: 8:58:3.212 
+Sampling frequency: 1000  & Resolution: 16 
+Settings used: 
+ StandardDeviation to remove outliers: 100
+Process track A:
+    Bandpassfilter: cuttoffrequencies: 100 300
+    Savitzky-Golay filtering: ordel and framelen: 20 219
+Process track B:
+    Windowlength, 20    Overlap, 19
