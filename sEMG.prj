@@ -4,12 +4,12 @@
     <param.icon />
     <param.icons />
     <param.version>1.0</param.version>
-    <param.authnamewatermark>Maxime G, Thijs V and Niels V G</param.authnamewatermark>
+    <param.authnamewatermark>Maxime G., Thijs V., Niels V.G.</param.authnamewatermark>
     <param.email />
     <param.company />
     <param.summary />
-    <param.description>Amazing app for showing the results of sEMG.</param.description>
-    <param.screenshot>C:\Users\maxim\OneDrive\Documenten\matlab_muscles.png</param.screenshot>
+    <param.description />
+    <param.screenshot />
     <param.guid />
     <param.installpath.string>\sEMG\</param.installpath.string>
     <param.installpath.combo>option.installpath.programfiles</param.installpath.combo>
@@ -49,6 +49,8 @@
       <param.email />
       <param.company />
       <param.summary />
+      <param.description />
+      <param.screenshot />
       <param.guid />
       <param.installpath.string />
       <param.installpath.combo />
@@ -79,9 +81,7 @@
     <fileset.main>
       <file>${PROJECT_ROOT}\sEMG.mlapp</file>
     </fileset.main>
-    <fileset.resources>
-      <file>${PROJECT_ROOT}\main.m</file>
-    </fileset.resources>
+    <fileset.resources />
     <fileset.package />
     <fileset.depfun>
       <file>${PROJECT_ROOT}\BandpassFilter.m</file>
@@ -89,6 +89,7 @@
       <file>${PROJECT_ROOT}\MVC.m</file>
       <file>${PROJECT_ROOT}\ReadFile.m</file>
       <file>${PROJECT_ROOT}\Savitzky_GolayFilter.m</file>
+      <file>${PROJECT_ROOT}\settings.txt</file>
       <file>${PROJECT_ROOT}\transformTo_mV.m</file>
     </fileset.depfun>
     <build-deliverables>
