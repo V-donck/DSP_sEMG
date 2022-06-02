@@ -1,5 +1,5 @@
 <deployment-project plugin="plugin.ezdeploy" plugin-version="1.0">
-  <configuration file="C:\Users\maxim\OneDrive\Documenten\GitHub\DSP_sEMG\sEMG.prj" location="C:\Users\maxim\OneDrive\Documenten\GitHub\DSP_sEMG" name="sEMG" target="target.ezdeploy.standalone" target-name="Application Compiler">
+  <configuration file="C:\Users\maxim\OneDrive - Universiteit Antwerpen\GitHub\DSP_sEMG\sEMG.prj" location="C:\Users\maxim\OneDrive - Universiteit Antwerpen\GitHub\DSP_sEMG" name="sEMG" target="target.ezdeploy.standalone" target-name="Application Compiler">
     <param.appname>sEMG</param.appname>
     <param.icon />
     <param.icons />
@@ -93,9 +93,9 @@
       <file>${PROJECT_ROOT}\transformTo_mV.m</file>
     </fileset.depfun>
     <build-deliverables>
-      <file location="${PROJECT_ROOT}\sEMG\for_testing" name="splash.png" optional="false">C:\Users\maxim\OneDrive\Documenten\GitHub\DSP_sEMG\sEMG\for_testing\splash.png</file>
-      <file location="${PROJECT_ROOT}\sEMG\for_testing" name="sEMG.exe" optional="false">C:\Users\maxim\OneDrive\Documenten\GitHub\DSP_sEMG\sEMG\for_testing\sEMG.exe</file>
-      <file location="${PROJECT_ROOT}\sEMG\for_testing" name="readme.txt" optional="true">C:\Users\maxim\OneDrive\Documenten\GitHub\DSP_sEMG\sEMG\for_testing\readme.txt</file>
+      <file location="${PROJECT_ROOT}\sEMG\for_testing" name="sEMG.exe" optional="false">C:\Users\maxim\OneDrive - Universiteit Antwerpen\GitHub\DSP_sEMG\sEMG\for_testing\sEMG.exe</file>
+      <file location="${PROJECT_ROOT}\sEMG\for_testing" name="splash.png" optional="false">C:\Users\maxim\OneDrive - Universiteit Antwerpen\GitHub\DSP_sEMG\sEMG\for_testing\splash.png</file>
+      <file location="${PROJECT_ROOT}\sEMG\for_testing" name="readme.txt" optional="true">C:\Users\maxim\OneDrive - Universiteit Antwerpen\GitHub\DSP_sEMG\sEMG\for_testing\readme.txt</file>
     </build-deliverables>
     <workflow />
     <matlab>
